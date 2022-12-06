@@ -12,6 +12,8 @@ RUN wget https://github.com/opencv/opencv/archive/refs/tags/4.5.5.zip && unzip 4
 
 WORKDIR /build
 RUN cmake -DCMAKE_BUILD_TYPE=Release \
+        -DBUILD_PROTOBUF=OFF \
+        -DWITH_PROTOBUF=OFF \
 	-DCMAKE_INSTALL_PREFIX=/usr \
 	-DBUILD_SHARED_LIBS=OFF \
 	-DOPENCV_GENERATE_PKGCONFIG=ON \
