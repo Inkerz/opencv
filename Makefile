@@ -1,4 +1,4 @@
 all:
-	@docker build -t libgrpc .
-	@docker run -v "${PWD}/:/artifacts" libgrpc
+	@docker build -t opencv .
+	@docker run -v "${PWD}/:/artifacts" opencv
 

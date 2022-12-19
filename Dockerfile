@@ -6,9 +6,12 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends cmake build-essential autoconf libtool pkg-config g++ gcc git ca-certificates wget unzip \
 	&& rm -rf /var/lib/apt/lists/*
 
+ARG OPENCV_VERSION=4.6.0
+ENV OPENCV_VERSION=$OPENCV_VERSION
+
 #Install gRPC
 WORKDIR /
-RUN wget https://github.com/opencv/opencv/archive/refs/tags/4.5.5.zip && unzip 4.5.5.zip
+RUN wget https://github.com/opencv/opencv/archive/refs/tags/${OPENCV_VERSION}.zip && unzip ${OPENCV_VERSION}.zip
 
 WORKDIR /build
 RUN cmake -DCMAKE_BUILD_TYPE=Release \
@@ -20,10 +23,10 @@ RUN cmake -DCMAKE_BUILD_TYPE=Release \
 	-DBUILD_TESTS=OFF \
 	-DBUILD_EXAMPLES=OFF \
 	-DBUILD_opencv_apps=OFF \
-	/opencv-4.5.5
+	/opencv-${OPENCV_VERSION}
 RUN make -j20
 RUN DESTDIR=/install make install
 
 WORKDIR /artifacts
-ENTRYPOINT tar -czvf opencv-4.5.5.tar.gz -C /install .
+ENTRYPOINT tar -czvf opencv-${OPENCV_VERSION}.tar.gz -C /install .
 
